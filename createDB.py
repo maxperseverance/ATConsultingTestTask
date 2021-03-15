@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect("pizza.db")  # или :memory: чтобы сохранить в RAM
+conn = sqlite3.connect("pizza.db")
 cursor = conn.cursor()
 
 # Создание таблицы

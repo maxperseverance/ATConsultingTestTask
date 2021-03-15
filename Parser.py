@@ -1,11 +1,10 @@
 import requests, io
 from bs4 import BeautifulSoup
 import sqlite3
-import logging
 
 URL = r'https://koteekee.ru/receive/papajohns'
 
-conn = sqlite3.connect("pizza.db")  # или :memory: чтобы сохранить в RAM
+conn = sqlite3.connect("pizza.db")
 cursor = conn.cursor()
 with io.open('C:/Users/maks_/Desktop/domodedovo2.html', encoding='utf-8') as html_file:
     soup = BeautifulSoup(html_file, features='html.parser')
@@ -24,7 +23,7 @@ for item in items:
 
     cardDict = {
         'title': title,
-        'desc':desc,
+        'desc': desc,
         'type': type,
         'size': size,
         'price': price
@@ -35,9 +34,7 @@ for item in items:
     print('Got response', response)
 
     id = response['response_uuid']
-    cardDict['id'] = id
     cards.append([id, title, desc, type, size, price])
 
-print(cards)
-cursor.executemany("INSERT INTO pizzas VALUES (?,?,?,?,?,?)", cards)
+cursor.executemany("INSERT INTO pizzas VALUES (?,?,?,?,?,?)", cards)     #prevent sql injection
 conn.commit()
